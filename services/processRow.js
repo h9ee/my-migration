@@ -146,6 +146,14 @@ async function processRow(ctx) {
   for (const block of (INST_BLOCKS || [])) {
     const [ty, amtCol, dueCol, rcvCol, bankCol, docCol] = block;
     const amt = toNum(safeExcel(row, amtCol));
+
+    // --- دستور اشکال‌زدایی ---
+    // این خط به شما نشان می‌دهد که آیا برنامه مبلغی برای قسط پیدا کرده است یا خیر
+    if (amt > 0) {
+      console.log(`   [قسط] مبلغ ${amt} از ستون ${amtCol} برای ردیف ${rowIdx} پیدا شد.`);
+    }
+    // -------------------------
+
     if (!amt) continue;
     await addPayment(
       reqFactory,
